@@ -6,7 +6,6 @@ import Svg.Styled exposing (rect, svg, styled)
 import Svg.Styled.Attributes as Attr
 import Svg.Styled.Events as Events
 import Types exposing (Model, Msg(..), Position(..), Tile(..), TileType(..))
-import Array exposing (Array)
 import Grid exposing (Grid)
 
 
@@ -24,7 +23,7 @@ getColor t =
             "white"
 
         Tile Empty _ ->
-            "rgb(230, 230, 230)"
+            "rgb(80, 90, 110)"
 
 
 tileSize : Int
@@ -36,9 +35,6 @@ tile =
     styled rect
         [ width (px <| toFloat tileSize)
         , height (px <| toFloat tileSize)
-        , hover
-            [ fill (rgb 200 200 200)
-            ]
         ]
 
 
@@ -49,11 +45,12 @@ renderTile t =
             getPosition t
     in
         tile
-            [ Attr.stroke "rgb(100, 100, 100)"
+            [ Attr.stroke "rgb(160, 160, 160)"
             , Attr.fill <| getColor t
             , Attr.strokeWidth "0.03"
             , Attr.x <| toString x
             , Attr.y <| toString y
+            , Events.onClick (TileClick ( x, y ))
             ]
             []
 

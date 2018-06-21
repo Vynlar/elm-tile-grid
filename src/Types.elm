@@ -7,6 +7,8 @@ module Types
         , Tile(..)
         , TileType(..)
         , newTile
+        , setType
+        , toggleType
         )
 
 import Window
@@ -25,6 +27,21 @@ type Tile
 newTile : ( Int, Int ) -> Tile
 newTile ( x, y ) =
     Tile Empty (Position x y)
+
+
+setType : TileType -> Tile -> Tile
+setType newType (Tile _ position) =
+    Tile newType position
+
+
+toggleType : TileType -> TileType
+toggleType t =
+    case t of
+        Filled ->
+            Empty
+
+        Empty ->
+            Filled
 
 
 type TileType
@@ -59,4 +76,5 @@ type Msg
     | MouseDown Mouse.Position
     | MouseUp Mouse.Position
     | MouseMove Mouse.Position
+    | TileClick ( Int, Int )
     | NoOp

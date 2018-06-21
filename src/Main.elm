@@ -143,6 +143,31 @@ update msg model =
                 , Cmd.none
                 )
 
+        TileClick ( x, y ) ->
+            let
+                oldTile =
+                    Grid.get x y model.grid
+
+                newTile =
+                    case oldTile of
+                        Just (Types.Tile oldTileType position) ->
+                            Types.setType
+                                (Types.toggleType oldTileType)
+                                (Types.Tile oldTileType position)
+
+                        Nothing ->
+                            Debug.crash "Shouldn't ever access outside of the grid..."
+
+                newGrid =
+                    Grid.set x y newTile model.grid
+            in
+                case model.mode of
+                    Panning ->
+                        ( model, Cmd.none )
+
+                    Drawing ->
+                        ( { model | grid = newGrid }, Cmd.none )
+
         NoOp ->
             ( model, Cmd.none )
 
@@ -162,7 +187,7 @@ viewport model =
                 cursor pointer
 
             Drawing ->
-                cursor auto
+                cursor crosshair
         ]
 
 
